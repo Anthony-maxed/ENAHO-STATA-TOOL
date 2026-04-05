@@ -1,0 +1,37 @@
+*PRIMERO DEFENIMOS LA RUTA DE DONDE ESTAN TUS ARCHIVOS EN MI CASO TENGO UNA CARPETA DEL AÑO DE LA ENCUESTA ENAHO CON EL CUAL TRABAJARÉ.
+
+cd "C:\Users\ANTHONY\Documents\Anthony\esan\Tesis_1\ENAHO\2024"
+
+*Cargas el archivo si es dta(puedes poner solo el nombre)/ si es de otro tipo de archivo usas otros comandos.
+
+use enaho01a-2024-500
+
+
+
+
+*Cuando descargas el archivo de la ENAHO, también encuentras el diccionario y el formato de la encuesta, los cuales nos sirven para saber qué variable usar.
+
+*En nuestro caso la variable de nuestro interés es p510a1. Para conocer la variable y unas cuantas observaciones.
+de p512a
+list p512a in 1/20
+
+*Para conocer el valor numérico que representa cada etiqueta de las observaciones.
+
+label list p512a
+
+*En el ENAHO sacaremos las MYPE solo con el número de trabajadores: Micro(De uno (1) hasta diez (10) trabajadores inclusive.) y PEQUEÑA (De uno (1) hasta cien (100) trabajadores inclusive.)
+
+gen mype = 1 if inlist(p512a,1,2,3)
+
+*Los valores 4 y 5 no sirven para la definición de MYPE además que tal vez haya observaciones vacías. Para saber el número de observaciones que no cumplen con la definición MYPE y las que sí .
+
+count if mype == 1
+
+count if mype == .
+
+*Borramos las filas que no cumplen con ser MYPE
+
+drop if mype == .
+
+*Como resultado final, tenemos nuestra ENAHO con la variable de interés MYPE, la cual nos permite analizar únicamente a las micro y pequeñas empresas dentro de la encuesta.
+
