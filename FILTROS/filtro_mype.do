@@ -25,18 +25,20 @@ use "enaho01a-2024-500.dta", clear
 *==============================================================================
 *La parte INTERMEDIA corre normal
 
-//Cuando descargas el archivo de la ENAHO, también encuentras el diccionario y el formato de la encuesta, los cuales nos sirven para saber qué variable usar.
+//Cuando descargas el archivo de la ENAHO, también encuentras el diccionario y el formato de la encuesta,los cuales nos sirven para saber qué variable usar.
 
-//En nuestro caso la variable de nuestro interés es p512a. Para conocer la variable, el valor numérico que representa cada etiqueta de las observaciones y unas cuantas observaciones.
+//En nuestro caso la variable de nuestro interés es p512a. Para conocer la variable,el valor numérico que representa cada etiqueta de las observaciones y unas cuantas observaciones.
 
-de p512a
-label list p512a
-list p512a in 1/10
+de p512a ocu500
+label list p512a ocu500
+list p512a ocu500 in 1/10
 
 *==============================================================================
 
-//En el ENAHO sacaremos las MYPE solo con el número de trabajadores: Micro(De uno (1) hasta diez (10) trabajadores inclusive.) y PEQUEÑA (De uno (1) hasta cien (100) trabajadores inclusive.)
+//En el ENAHO sacaremos las MYPE solo con el número de trabajadores: Micro(De uno (1) hasta diez (10) trabajadores inclusive.) y PEQUEÑA (De uno (1) hasta cien (100) trabajadores inclusive.) 
+//Solo contamos con la gente ocupada
 
+keep if ocu500 == 1
 gen MYPE = 1 if inlist(p512a,1,2,3)
 
 //Los valores 4 y 5 no sirven para la definición de MYPE además que tal vez haya observaciones vacías. Para saber el número de observaciones que no cumplen con la definición MYPE y las que sí.
